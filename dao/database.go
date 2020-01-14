@@ -1,8 +1,10 @@
 package dao
 
 import (
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
+
 	"user_center/conf"
 )
 var (

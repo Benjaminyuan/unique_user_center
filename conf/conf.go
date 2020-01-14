@@ -1,10 +1,10 @@
 package conf
 
 import (
-	"io/ioutil"
-	"path/filepath"
 	"github.com/sirupsen/logrus"
 	yaml "gopkg.in/yaml.v2"
+	"io/ioutil"
+	"path/filepath"
 )
 
 type MysqlConf struct {
@@ -13,6 +13,7 @@ type MysqlConf struct {
 }
 type RPCConf struct {
 	Addr string `yaml:"addr"`
+	Network string `yaml:"network"`
 }
 type Conf struct {
 	MysqlConf MysqlConf `yaml:"MysqlConf"`

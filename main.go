@@ -20,7 +20,7 @@ func main(){
 	if err != nil{
 		logrus.Fatalf("fail to init DB, err: %v",err)
 	}
-	lis,err := net.Listen("",conf.Data.RPCConf.Addr)
+	lis,err := net.Listen(conf.Data.RPCConf.Network,conf.Data.RPCConf.Addr)
 	if err != nil {
 		logrus.Fatalf("failed to listen: %v", err)
 	}
