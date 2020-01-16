@@ -6,8 +6,8 @@ import (
 	"net"
 	"user_center/conf"
 	"user_center/dao"
+	"user_center/protos/gencode"
 	"user_center/rpc"
-	pb "user_center/server/protos/sso"
 )
 
 func main(){
@@ -25,7 +25,7 @@ func main(){
 		logrus.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterUserServer(s,&rpc.UserServer{})
+	gencode.RegisterUserServer(s,&rpc.UserServer{})
 	if err:= s.Serve(lis);err != nil{
 		logrus.Fatalf("fail to  start listen, err: %v",err)
 	}
