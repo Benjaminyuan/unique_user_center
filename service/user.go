@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"github.com/sirupsen/logrus"
+	"google.golang.org/appengine/log"
 	"user_center/common"
 	"user_center/dao"
 	gencode "user_center/protos/gencode"
@@ -22,13 +24,42 @@ func CreateUser(ctx context.Context, req *gencode.CreateUserRequest) (res *genco
 		res.Basic = common.BadCommonResponse
 		return res,nil
 	}
-	res.User = &gencode.UserInfo{
+	res.User = ModelUserToUserInfo(user)
+	res.Basic = common.SuccessCommonResponse
+	return res,nil
+}
+func VerifyUser(ctx context.Context,req *gencode.VerifyUserIdentityRequest)(res *gencode.VerifyUserIdentityResponse,err error){
+	res = &gencode.VerifyUserIdentityResponse{}
+	user,err  := dao.GetUserInfoByName(ctx,req.UserName)
+	if err != nil{
+		logrus.Errorf("fail to get userInfoByName,err:%v",err)
+		res.Basic = common.NotFoundCommonResponse
+		return res,err
+	}
+	res.Basic = common.SuccessCommonResponse
+	res.User = ModelUserToUserInfo(user)
+	return res,nil
+
+}
+func GetUserInfoById(ctx context.Context,req *gencode.GetUserInfoByIDRequest)(res *gencode.GetUserInfoByIDResponse,err error){
+	res = &gencode.GetUserInfoByIDResponse{}
+	user,err := dao.GetUserInfoById(ctx,req.Uid)
+	if err != nil{
+		logrus.Errorf("fail to get userInfoById,err:%v",err)
+		res.Basic = common.NotFoundCommonResponse
+		return res,err
+	}
+	res.Basic = common.SuccessCommonResponse
+	res.User = ModelUserToUserInfo(user)
+	return res,nil
+}
+func ModelUserToUserInfo(user *dao.User)*gencode.UserInfo{
+	userInfo := &gencode.UserInfo{
 		Uid:                  user.UID,
 		Name:                 user.Name,
 		Phone:                user.Phone,
 		College:              user.College,
 		EMail:                user.EMail,
 	}
-	res.Basic = common.SuccessCommonResponse
-	return res,nil
+	return userInfo
 }
