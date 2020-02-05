@@ -8,14 +8,15 @@ import (
 	"user_center/conf"
 )
 var (
-	db *gorm.DB
+	Db *gorm.DB
 )
 func InitDB()error{
 	var err error
-	db, err  = gorm.Open("mysql",conf.Data.MysqlConf.MysqlAddr)
+	db, err  := gorm.Open("mysql",conf.Data.MysqlConf.MysqlAddr)
 	if err != nil{
 		logrus.Fatalf("fail to connect db,err: %v",err)
 		return err
 	}
+	Db = db
 	return nil
 }

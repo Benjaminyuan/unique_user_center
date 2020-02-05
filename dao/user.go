@@ -7,7 +7,7 @@ import (
 )
 
 func CreateUser(c context.Context,user *User)error{
-	if	err :=  db.Table("user").Create(user).Error ; err != nil{
+	if	err :=  Db.Table("user").Save(user).Error ; err != nil{
 		logrus.Errorf("fail to create user,err: %v",err)
 		return err
 	}
@@ -15,9 +15,9 @@ func CreateUser(c context.Context,user *User)error{
 }
 func GetUserInfoByName(c context.Context,name string)(*User,error){
 	user := &User{}
-	if err := db.Table("user").Where("name = ?", name).Find(user).Error; err != nil{
+	if err := Db.Table("user").Where("name = ?", name).Find(user).Error; err != nil{
 		if err == gorm.ErrRecordNotFound{
-			logrus.Errorf("user name %v not found,err: %v",err)
+			logrus.Errorf("user name %v not found,err: %v",name,err)
 			return nil,err
 		}
 		logrus.Errorf("user  by name failed,err: %v",err)
@@ -27,8 +27,8 @@ func GetUserInfoByName(c context.Context,name string)(*User,error){
 }
 
 func GetUserInfoById(c context.Context, uid int64)(*User,error){
-	user := &User{}
-	if err := db.Table("user").Where("id = ?", uid).Find(user).Error; err != nil{
+	user := User{}
+	if err := Db.Table("user").Where("id = ?", uid).Find(&user).Error; err != nil{
 		if err == gorm.ErrRecordNotFound{
 			logrus.Errorf("user id %v not found,err: %v",err)
 			return nil,err
@@ -36,5 +36,5 @@ func GetUserInfoById(c context.Context, uid int64)(*User,error){
 		logrus.Errorf("user  by id failed,err: %v",err)
 		return nil,err
 	}
-	return user,nil
+	return &user,nil
 }

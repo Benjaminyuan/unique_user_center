@@ -1,8 +1,3 @@
-## 用户的设计
-```sql
-create table `user`(
-    `id` INT NOT NULL AUTO_,
+# UniqueUserCenter
+* 计划用于同一管理人员的后台
 
-
-)
-```

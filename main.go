@@ -6,7 +6,7 @@ import (
 	"net"
 	"user_center/conf"
 	"user_center/dao"
-	"user_center/protos/gencode"
+	gencode "user_center/protos/gencode"
 	"user_center/rpc"
 )
 

@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"github.com/sirupsen/logrus"
-	"google.golang.org/appengine/log"
 	"user_center/common"
 	"user_center/dao"
 	gencode "user_center/protos/gencode"
@@ -12,9 +11,7 @@ import (
 func CreateUser(ctx context.Context, req *gencode.CreateUserRequest) (res *gencode.CreateUserResponse, err error) {
 	res = &gencode.CreateUserResponse{}
 	user := &dao.User{
-		UID:      0,
 		Name:     req.EMail,
-		RealName: "",
 		Role:     0,
 		Phone:    req.Phone,
 		EMail:    req.EMail,
@@ -55,7 +52,7 @@ func GetUserInfoById(ctx context.Context,req *gencode.GetUserInfoByIDRequest)(re
 }
 func ModelUserToUserInfo(user *dao.User)*gencode.UserInfo{
 	userInfo := &gencode.UserInfo{
-		Uid:                  user.UID,
+		Uid:                  user.ID,
 		Name:                 user.Name,
 		Phone:                user.Phone,
 		College:              user.College,
